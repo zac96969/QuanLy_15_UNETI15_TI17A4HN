@@ -1,6 +1,9 @@
 // Họ và tên: Lê Văn Thanh
 // Mã sinh viên: 23103100200
 // Nội dung thực hiện: Module 5 - DbContext và các DbSet (ChiTietDatPhong cùng các entity liên quan) dùng cho Dashboard, thống kê, tính tiền.
+// Họ và tên: Nguyễn Đình Quang
+// Mã sinh viên: 23103100259
+// Nội dung thực hiện: Module 3 - Giữ CCCD là duy nhất nhưng cho phép nhiều hồ sơ chưa khai báo CCCD.
 using Microsoft.EntityFrameworkCore;
 using QuanLy_15_UNETI15_TI17A4HN.Models;
 
@@ -36,7 +39,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<KhachHang>(e =>
         {
-            e.HasIndex(k => k.CCCD).IsUnique();
+            e.HasIndex(k => k.CCCD).IsUnique().HasFilter("[CCCD] IS NOT NULL");
             e.HasOne(k => k.TaiKhoan).WithMany()
                 .HasForeignKey(k => k.MaTaiKhoan)
                 .OnDelete(DeleteBehavior.Restrict);
