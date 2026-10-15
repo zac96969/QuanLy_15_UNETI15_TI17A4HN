@@ -12,6 +12,12 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.*" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- This nested directory is an old duplicate project copy, not source for this project. -->
+    <Compile Remove="QuanLy_15_UNETI15_TI17A4HN/**/*.cs" />
   </ItemGroup>
 
 </Project>

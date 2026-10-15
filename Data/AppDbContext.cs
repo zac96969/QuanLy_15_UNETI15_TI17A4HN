@@ -20,6 +20,7 @@ public class AppDbContext : DbContext
     public DbSet<DatPhong> DatPhongs => Set<DatPhong>();
     public DbSet<ChiTietDatPhong> ChiTietDatPhongs => Set<ChiTietDatPhong>();
     public DbSet<DichVu> DichVus => Set<DichVu>();
+    public DbSet<SuDungDichVu> SuDungDichVus => Set<SuDungDichVu>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,7 +33,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Phong>(e =>
         {
             e.HasIndex(p => p.SoPhong).IsUnique();
-            e.HasOne(p => p.LoaiPhong).WithMany()
+            e.HasOne(p => p.LoaiPhong).WithMany(l => l.Phongs)
                 .HasForeignKey(p => p.MaLoaiPhong)
                 .OnDelete(DeleteBehavior.Restrict);
         });
@@ -49,6 +50,9 @@ public class AppDbContext : DbContext
         {
             e.HasOne(d => d.KhachHang).WithMany(k => k.DatPhongs)
                 .HasForeignKey(d => d.MaKhachHang)
+                .OnDelete(DeleteBehavior.Restrict);
+            e.HasOne(d => d.Phong).WithMany(p => p.DatPhongs)
+                .HasForeignKey(d => d.MaPhong)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -68,5 +72,20 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<DichVu>()
             .HasIndex(d => d.TenDichVu).IsUnique();
+
+        modelBuilder.Entity<SuDungDichVu>(e =>
+        {
+            e.ToTable("SuDungDichVus", t =>
+            {
+                t.HasCheckConstraint("CK_SuDungDichVu_SoLuong", "[SoLuong] > 0");
+                t.HasCheckConstraint("CK_SuDungDichVu_Tien", "[DonGia] >= 0 AND [ThanhTien] >= 0");
+            });
+            e.HasOne(s => s.ChiTietDatPhong).WithMany(c => c.SuDungDichVus)
+                .HasForeignKey(s => s.MaChiTiet)
+                .OnDelete(DeleteBehavior.Restrict);
+            e.HasOne(s => s.DichVu).WithMany(d => d.SuDungDichVus)
+                .HasForeignKey(s => s.MaDichVu)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
     }
 }
