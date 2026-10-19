@@ -14,7 +14,7 @@ public static class TrangThaiChiTietDatPhong
     public const string Huy = "Huy";
 }
 
-// Tên ngắn dùng trong các màn hình Module 5; giá trị khớp với trạng thái lưu trong DB.
+
 public static class TrangThaiChiTiet
 {
     public const string ChuaNhan = TrangThaiChiTietDatPhong.DaDat;
