@@ -18,6 +18,7 @@ public class DatPhong
 
     [Required]
     [Display(Name = "Phòng")]
+    // Phòng chính cho luồng đặt/tiếp nhận; mọi phòng và tiền lưu trú được lưu ở ChiTietDatPhongs.
     public int MaPhong { get; set; }
     public Phong Phong { get; set; } = null!;
 

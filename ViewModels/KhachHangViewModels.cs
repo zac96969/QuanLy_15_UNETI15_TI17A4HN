@@ -22,6 +22,7 @@ public class CapNhatHoSoViewModel
     public string? GioiTinh { get; set; }
 
     [StringLength(20)]
+    [RegularExpression(@"^\d{12}$", ErrorMessage = "CCCD phải gồm đúng 12 chữ số")]
     [Display(Name = "CCCD")]
     public string? CCCD { get; set; }
 
@@ -90,6 +91,7 @@ public class KhachHangQuanLyViewModel
     public string? GioiTinh { get; set; }
 
     [StringLength(20), Display(Name = "CCCD")]
+    [RegularExpression(@"^\d{12}$", ErrorMessage = "CCCD phải gồm đúng 12 chữ số")]
     public string? CCCD { get; set; }
 
     [Phone(ErrorMessage = "Số điện thoại không hợp lệ"), StringLength(15)]

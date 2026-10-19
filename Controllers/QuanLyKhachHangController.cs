@@ -128,8 +128,9 @@ public class QuanLyKhachHangController : Controller
     {
         if (model.NgaySinh.HasValue && model.NgaySinh.Value.Date > DateTime.Today)
             ModelState.AddModelError(nameof(model.NgaySinh), "Ngày sinh không thể ở tương lai.");
-        if (!string.IsNullOrWhiteSpace(model.CCCD) && await _db.KhachHangs.AnyAsync(k =>
-                k.CCCD == model.CCCD && (!id.HasValue || k.MaKhachHang != id.Value)))
+        var cccd = Clean(model.CCCD);
+        if (cccd != null && await _db.KhachHangs.AnyAsync(k =>
+                k.CCCD == cccd && (!id.HasValue || k.MaKhachHang != id.Value)))
             ModelState.AddModelError(nameof(model.CCCD), "CCCD đã được sử dụng cho hồ sơ khác.");
     }
 

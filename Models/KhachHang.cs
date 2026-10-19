@@ -28,6 +28,7 @@ public class KhachHang
     public string? GioiTinh { get; set; }
 
     [StringLength(20)]
+    [RegularExpression(@"^\d{12}$", ErrorMessage = "CCCD phải gồm đúng 12 chữ số")]
     [Display(Name = "CCCD")]
     public string? CCCD { get; set; }
 

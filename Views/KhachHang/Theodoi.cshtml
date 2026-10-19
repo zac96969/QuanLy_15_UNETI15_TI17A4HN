@@ -10,7 +10,7 @@
 <p><a asp-action="DatPhong" class="btn btn-primary">Tạo đặt phòng</a></p>
 <div class="table-responsive">
     <table class="table table-striped table-hover align-middle">
-        <thead><tr><th>Mã</th><th>Phòng</th><th>Ngày đặt</th><th>Nhận</th><th>Trả dự kiến</th><th>Số người</th><th>Tiền cọc</th><th>Trạng thái</th><th></th></tr></thead>
+        <thead><tr><th>Mã</th><th>Phòng</th><th>Ngày đặt</th><th>Nhận dự kiến / thực tế</th><th>Trả dự kiến / thực tế</th><th>Số người</th><th>Tiền cọc</th><th>Trạng thái</th><th></th></tr></thead>
         <tbody>
         @foreach (var item in Model)
         {
@@ -18,8 +18,8 @@
                 <td>#@item.MaDatPhong</td>
                 <td>@item.Phong.SoPhong — @item.Phong.LoaiPhong.TenLoai</td>
                 <td>@item.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@item.NgayNhan.ToString("dd/MM/yyyy")</td>
-                <td>@item.NgayTraDuKien.ToString("dd/MM/yyyy")</td>
+                <td>@item.NgayNhan.ToString("dd/MM/yyyy")<br /><small class="text-muted">Thực tế: @(item.NgayNhanThucTe?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa nhận")</small></td>
+                <td>@item.NgayTraDuKien.ToString("dd/MM/yyyy")<br /><small class="text-muted">Thực tế: @(item.NgayTraThucTe?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa trả")</small></td>
                 <td>@item.SoNguoi</td>
                 <td>@item.TienCoc.ToString("N0") đ</td>
                 <td>@item.TrangThai</td>
@@ -29,6 +29,10 @@
                         <form asp-action="Huy" asp-route-id="@item.MaDatPhong" method="post" onsubmit="return confirm('Bạn muốn hủy đặt phòng này?');">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Hủy</button>
                         </form>
+                    }
+                    @if (item.TrangThai == QuanLy_15_UNETI15_TI17A4HN.Models.TrangThaiDatPhong.HoanThanh && item.ChiTietDatPhongs.Count > 0)
+                    {
+                        <a asp-controller="ChiTietDatPhong" asp-action="KetQua" asp-route-maDatPhong="@item.MaDatPhong" class="btn btn-sm btn-outline-primary">Xem kết quả</a>
                     }
                     @if (!string.IsNullOrWhiteSpace(item.LyDoHuy)) { <small class="text-muted">@item.LyDoHuy</small> }
                 </td>
